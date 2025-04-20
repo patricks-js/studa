@@ -1,3 +1,4 @@
+import { env } from "@/lib/env";
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
@@ -8,6 +9,6 @@ export default defineConfig({
   strict: true,
   casing: "snake_case",
   dbCredentials: {
-    url: process.env.DATABASE_URL || "",
+    url: env.DATABASE_URL,
   },
 });

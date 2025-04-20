@@ -2,7 +2,9 @@ import {
   BellIcon,
   Home,
   Loader2,
+  LogOut,
   Settings2,
+  User,
   type LucideProps,
 } from "lucide-react";
 
@@ -18,4 +20,6 @@ export const Icons = {
   home: Home,
   settings: Settings2,
   bell: BellIcon,
+  user: User,
+  logout: LogOut,
 };

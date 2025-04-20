@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 import { Icons } from "@/components/icons";
@@ -8,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
-  const router = useRouter();
-
   const signIn = async () => {
     await authClient.signIn.social(
       {
@@ -18,7 +15,6 @@ export default function LoginPage() {
       {
         onSuccess: () => {
           toast.success("Login realizado com sucesso!");
-          router.push("/");
         },
         onError: (error) => {
           toast.error("Erro ao realizar login");

@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { Icons } from "./icons";
+import { ProfileMenu } from "./profile-menu";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { SidebarTrigger } from "./ui/sidebar";
@@ -32,7 +33,7 @@ export function AppHeader() {
         >
           <Icons.bell />
         </Button>
-        <div>User</div>
+        <ProfileMenu />
       </div>
     </header>
   );
