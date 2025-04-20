@@ -1,0 +1,12 @@
+pre-commit:
+  commands:
+    check:
+      glob: "*.{ts,tsx,json,jsonc,css}"
+      run: bunx @biomejs/biome check --write --no-errors-on-unmatched --colors=off {staged_files}
+      stage_fixed: true
+
+pre-push:
+  commands:
+    check:
+      glob: "*.{ts,tsx,json,jsonc,css}"
+      run: bunx @biomejs/biome check --no-errors-on-unmatched --colors=off {push_files}
