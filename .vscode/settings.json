@@ -10,5 +10,8 @@
   "tailwindCSS.experimental.classRegex": [
     ["tw`([^`]*)"] // tw`...`
   ],
-  "cSpell.words": ["biomejs"]
+  "cSpell.words": [
+    "biomejs",
+    "studa"
+  ]
 }
