@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpCircleIcon } from "lucide-react";
+import { ArrowUpCircleIcon, ZapIcon } from "lucide-react";
 
 import {
   Sidebar,
@@ -16,6 +16,9 @@ import {
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { Icons } from "./icons";
+import { Button } from "./ui/button";
+import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
+import { Progress } from "./ui/progress";
 
 const navItems = [
   {
@@ -80,7 +83,30 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <Card className="gap-3">
+          <CardHeader>
+            <h3 className="font-semibold text-sm">Upgrade to Premium</h3>
+            <p className="text-muted-foreground text-xs">
+              Unlock all features by upgrading to the premium plan.
+            </p>
+          </CardHeader>
+          <CardContent>
+            <div className="mt-2 h-2 w-full rounded-full bg-muted">
+              <Progress value={37} />
+            </div>
+            <p className="mt-1 text-muted-foreground text-xs">
+              50% of free usage consumed
+            </p>
+          </CardContent>
+          <CardFooter>
+            <Button className="w-full">
+              <ZapIcon />
+              Upgrade Now
+            </Button>
+          </CardFooter>
+        </Card>
+      </SidebarFooter>
     </Sidebar>
   );
 }
