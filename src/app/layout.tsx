@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { Providers } from "@/providers";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { PropsWithChildren } from "react";
@@ -32,7 +33,7 @@ export default function RootLayout({ children }: Readonly<PropsWithChildren>) {
           geistMono.variable,
         )}
       >
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

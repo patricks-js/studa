@@ -36,6 +36,9 @@
       "correctness": {
         "useExhaustiveDependencies": "info"
       },
+      "a11y": {
+        "noSvgWithoutTitle": "off"
+      },
       "nursery": {
         "useSortedClasses": {
           "level": "warn",
