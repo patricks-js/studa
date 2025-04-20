@@ -1,9 +1,13 @@
 import {
   BellIcon,
+  Book,
+  CreditCard,
   Home,
   Loader2,
   LogOut,
   Settings2,
+  SmartphoneCharging,
+  SquareCheck,
   User,
   type LucideProps,
 } from "lucide-react";
@@ -22,4 +26,8 @@ export const Icons = {
   bell: BellIcon,
   user: User,
   logout: LogOut,
+  book: Book,
+  flashcard: SmartphoneCharging,
+  quiz: SquareCheck,
+  credit: CreditCard,
 };

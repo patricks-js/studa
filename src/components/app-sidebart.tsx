@@ -22,15 +22,27 @@ import { Progress } from "./ui/progress";
 
 const navItems = [
   {
-    title: "Dashboard",
-    url: "/dashboard",
+    title: "Home",
+    url: "/home",
     icon: Icons.home,
     isActive: false,
   },
   {
-    title: "Settings",
-    url: "/settings",
-    icon: Icons.settings,
+    title: "Matérias",
+    url: "/subjects",
+    icon: Icons.book,
+    isActive: false,
+  },
+  {
+    title: "Flashcards",
+    url: "/flashcards",
+    icon: Icons.flashcard,
+    isActive: false,
+  },
+  {
+    title: "Quizzes",
+    url: "/quizzes",
+    icon: Icons.quiz,
     isActive: false,
   },
 ];
@@ -49,7 +61,7 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem className="px-4 py-2">
             <a
-              href="/dashboard"
+              href="/home"
               className="flex items-center gap-2"
             >
               <ArrowUpCircleIcon className="size-6" />

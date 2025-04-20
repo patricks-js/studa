@@ -97,17 +97,17 @@ export function ProfileMenu() {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <Icons.user />
-            Profile
+            Perfil
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <Icons.settings />
-            Settings
+            Configurações
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Icons.bell />
-            Billing
+            <Icons.credit />
+            Assinatura
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
@@ -117,7 +117,7 @@ export function ProfileMenu() {
           onClick={handleSignOut}
         >
           <Icons.logout />
-          Log out
+          Sair
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
