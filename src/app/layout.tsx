@@ -1,8 +1,9 @@
-import { cn } from "@/lib/utils";
-import { Providers } from "@/providers";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { PropsWithChildren } from "react";
+
+import { cn } from "@/lib/utils";
+import { Providers } from "@/providers";
 import "./globals.css";
 
 const geistSans = Geist({

@@ -1,4 +1,4 @@
-import { Loader2, type LucideProps } from "lucide-react";
+import { Home, Loader2, Settings2, type LucideProps } from "lucide-react";
 
 import { GitHub } from "./github";
 import { Google } from "./google";
@@ -9,4 +9,6 @@ export const Icons = {
   github: GitHub,
   google: Google,
   loader: Loader2,
+  home: Home,
+  settings: Settings2,
 };
