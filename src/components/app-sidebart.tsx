@@ -51,8 +51,7 @@ export function AppSidebar() {
   const pathname = usePathname();
 
   function isActiveUrl(url: string) {
-    console.log(pathname, url);
-    return pathname === url;
+    return `/${pathname.split("/")[1]}` === url;
   }
 
   return (
