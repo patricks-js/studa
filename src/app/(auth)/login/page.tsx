@@ -1,47 +1,47 @@
-"use client";
-
-import { toast } from "sonner";
-
-import { Icons } from "@/components/icons";
+import { SignInForm } from "@/components/sign-in-form";
 import { Button } from "@/components/ui/button";
-import { authClient } from "@/lib/auth-client";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function LoginPage() {
-  const signIn = async () => {
-    await authClient.signIn.social(
-      {
-        provider: "github",
-      },
-      {
-        onSuccess: () => {
-          toast.success("Login realizado com sucesso!");
-        },
-        onError: (error) => {
-          toast.error("Erro ao realizar login");
-          console.error(error);
-        },
-      },
-    );
-  };
-
   return (
-    <div className="flex w-full max-w-xs flex-col gap-6">
-      <h3 className="text-center font-medium text-xl">
-        👋 Bem-vindo ao StudyOS
-      </h3>
-      <div className="flex flex-col gap-2">
-        <Button className="w-full">
-          <Icons.google className="size-4" />
-          Entrar com Google
-        </Button>
-        <Button
-          onClick={() => signIn()}
-          className="w-full"
-        >
-          <Icons.github className="size-4" />
-          Entrar com GitHub
-        </Button>
-      </div>
-    </div>
+    <Card className="w-full max-w-md pb-4">
+      <CardHeader className="gap-2 text-center">
+        <Image
+          src="/logo.svg"
+          alt="Logo do Studa.ai"
+          width={48}
+          height={48}
+          className="mx-auto mb-4"
+        />
+        <CardTitle>Entre no Studa.ai</CardTitle>
+        <CardDescription>
+          Bem-vindo de volta! Entre na sua conta para continuar.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <SignInForm />
+      </CardContent>
+      <CardFooter className="border-t pt-4!">
+        <p className="mx-auto text-muted-foreground text-sm">
+          Ainda não tem uma conta?{" "}
+          <Button
+            variant="link"
+            asChild
+            className="p-0.5"
+          >
+            <Link href="/signup">Criar conta</Link>
+          </Button>
+        </p>
+      </CardFooter>
+    </Card>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpCircleIcon, ZapIcon } from "lucide-react";
+import { ZapIcon } from "lucide-react";
 
 import {
   Sidebar,
@@ -14,6 +14,8 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
@@ -63,7 +65,12 @@ export function AppSidebar() {
               href="/home"
               className="flex items-center gap-2"
             >
-              <ArrowUpCircleIcon className="size-6" />
+              <Image
+                src="/logo.svg"
+                alt="Logo"
+                width={40}
+                height={40}
+              />
               <span className="font-semibold text-lg">Studa.ai</span>
             </a>
           </SidebarMenuItem>
@@ -83,10 +90,10 @@ export function AppSidebar() {
                         "bg-sidebar-accent shadow-sm [&>svg]:text-sidebar-accent-foreground",
                     )}
                   >
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

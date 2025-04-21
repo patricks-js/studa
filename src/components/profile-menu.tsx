@@ -1,12 +1,11 @@
 "use client";
 
-import { ChevronDownIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { authClient } from "@/lib/auth-client";
+import Link from "next/link";
+import { toast } from "sonner";
 import { Icons } from "./icons";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,99 +16,85 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { Skeleton } from "./ui/skeleton";
+import { UserAvatar } from "./user-avatar";
+import { UserView } from "./user-view";
+
+const menuItems = [
+  {
+    label: "Perfil",
+    href: "/profile",
+    icon: <Icons.user />,
+    shortcut: "⇧⌘P",
+  },
+  {
+    label: "Configurações",
+    href: "/settings",
+    icon: <Icons.settings />,
+    shortcut: "⌘S",
+  },
+  {
+    label: "Assinatura",
+    icon: <Icons.credit />,
+    href: "/billing",
+    shortcut: "⌘B",
+  },
+];
 
 export function ProfileMenu() {
-  const { data: user, isPending: isLoading } = authClient.useSession();
   const router = useRouter();
+  const { data: session, isPending } = authClient.useSession();
+  const user = session?.user;
 
-  const handleSignOut = async () => {
-    try {
-      await authClient.signOut({
-        fetchOptions: {
-          onSuccess: () => {
-            router.push("/login");
-          },
+  async function handleSignOut() {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess() {
+          toast("Redirecionando para login...", { duration: 2000 });
+          router.push("/login");
         },
-      });
-    } catch (error) {
-      console.error("Failed to sign out:", error);
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <Button
-        variant="ghost"
-        className="relative h-10 w-full"
-      >
-        <Skeleton className="size-8 rounded-full" />
-        <Skeleton className="ml-2 h-4 w-4" />
-      </Button>
-    );
+        onError(ctx) {
+          toast.error("Operação falhou. Tente novamente mais tarde.");
+          console.error(ctx.error.message);
+        },
+      },
+    });
   }
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          className="relative"
-        >
-          <Avatar className="size-8">
-            <AvatarImage
-              src={user?.user.image ?? ""}
-              alt={user?.user.name ?? ""}
-            />
-            <AvatarFallback>
-              {user?.user.name.charAt(0).toUpperCase() ?? "U"}
-            </AvatarFallback>
-          </Avatar>
-          <ChevronDownIcon className="ml-2 size-4" />
-        </Button>
+      <DropdownMenuTrigger className="rounded-full">
+        <UserAvatar
+          user={user}
+          isPending={isPending}
+        />
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
         className="min-w-56"
       >
         <DropdownMenuLabel className="font-normal">
-          <div className="flex items-center gap-2">
-            <Avatar className="size-8">
-              <AvatarImage
-                src={user?.user.image ?? ""}
-                alt={user?.user.name ?? ""}
-              />
-              <AvatarFallback>
-                {user?.user.name?.charAt(0).toUpperCase() ?? "U"}
-              </AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col space-y-1">
-              <p className="font-medium text-sm leading-none">
-                {user?.user.name}
-              </p>
-              <p className="text-muted-foreground text-xs leading-none">
-                {user?.user.email}
-              </p>
-            </div>
-          </div>
+          <UserView
+            user={user}
+            isPending={isPending}
+          />
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Icons.user />
-            Perfil
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Icons.settings />
-            Configurações
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Icons.credit />
-            Assinatura
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
+          {menuItems.map((item) => (
+            <DropdownMenuItem
+              key={item.label}
+              asChild
+            >
+              <Link
+                href={item.href}
+                className="flex items-center gap-2"
+              >
+                {item.icon}
+                {item.label}
+                <DropdownMenuShortcut>{item.shortcut}</DropdownMenuShortcut>
+              </Link>
+            </DropdownMenuItem>
+          ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem
