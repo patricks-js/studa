@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import { Icons } from "./icons";
 import { ProfileMenu } from "./profile-menu";
+import { ThemeToggle } from "./theme-toggle";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { SidebarTrigger } from "./ui/sidebar";
@@ -27,6 +28,7 @@ export function AppHeader() {
         <h1 className="font-medium text-base">{title}</h1>
       </div>
       <div className="flex items-center gap-4">
+        <ThemeToggle />
         <Button
           variant="outline"
           size="icon"

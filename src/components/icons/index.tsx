@@ -3,11 +3,14 @@ import {
   Book,
   CreditCard,
   Home,
-  Loader2,
+  Laptop,
+  Loader,
   LogOut,
+  MoonStar,
   Settings2,
   SmartphoneCharging,
   SquareCheck,
+  Sun,
   User,
   type LucideProps,
 } from "lucide-react";
@@ -20,7 +23,7 @@ export type IconProps = LucideProps;
 export const Icons = {
   github: GitHub,
   google: Google,
-  loader: Loader2,
+  loader: Loader,
   home: Home,
   settings: Settings2,
   bell: BellIcon,
@@ -30,4 +33,7 @@ export const Icons = {
   flashcard: SmartphoneCharging,
   quiz: SquareCheck,
   credit: CreditCard,
+  sun: Sun,
+  moon: MoonStar,
+  desktop: Laptop,
 };
