@@ -6,8 +6,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export default function SubjectsPage() {
-  const subjects = [
+export default function ModulesPage() {
+  const modules = [
     {
       id: 1,
       title: "Matemática",
@@ -24,20 +24,20 @@ export default function SubjectsPage() {
 
   return (
     <>
-      <h3 className="mb-6 font-bold text-2xl">Todas as matérias</h3>
+      <h3 className="mb-6 font-bold text-2xl">Seus Módulos</h3>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {subjects.map((subject) => (
+        {modules.map((module) => (
           <Card
-            key={subject.id}
+            key={module.id}
             className="transition-colors hover:bg-muted/50"
           >
             <CardHeader>
-              <CardTitle>{subject.title}</CardTitle>
-              <CardDescription>{subject.description}</CardDescription>
+              <CardTitle>{module.title}</CardTitle>
+              <CardDescription>{module.description}</CardDescription>
             </CardHeader>
             <CardFooter>
               <a
-                href={`/subjects/${subject.id}`}
+                href={`/modules/${module.id}`}
                 className="text-muted-foreground text-sm hover:text-primary"
               >
                 Ver matéria →

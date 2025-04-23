@@ -30,21 +30,9 @@ const navItems = [
     isActive: false,
   },
   {
-    title: "Matérias",
-    url: "/subjects",
+    title: "Módulos",
+    url: "/modules",
     icon: Icons.book,
-    isActive: false,
-  },
-  {
-    title: "Flashcards",
-    url: "/flashcards",
-    icon: Icons.flashcard,
-    isActive: false,
-  },
-  {
-    title: "Quizzes",
-    url: "/quizzes",
-    icon: Icons.quiz,
     isActive: false,
   },
 ];
