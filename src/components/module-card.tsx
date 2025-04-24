@@ -1,63 +1,46 @@
+import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Icons } from "./icons";
+import { ModuleCardActions } from "./module-card-actions";
 import { Button } from "./ui/button";
 import {
   Card,
-  CardAction,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
 
 type Props = {
   id: string;
   title: string;
-  description: string;
+  description: string | null;
 };
 
 export function ModuleCard({ id, title, description }: Props) {
   return (
     <Card className="transition-colors hover:bg-muted/50">
       <CardHeader>
-        <CardAction>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button
-                variant="ghost"
-                size="icon"
-              >
-                <Icons.dots />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Icons.edit className="size-4" />
-                Editar
-              </DropdownMenuItem>
-              <DropdownMenuItem variant="destructive">
-                <Icons.trash className="size-4" />
-                Excluir
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </CardAction>
+        <ModuleCardActions moduleId={id} />
         <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardDescription
+          className={cn("line-clamp-1", !description && "hidden")}
+        >
+          {description}
+        </CardDescription>
       </CardHeader>
+      <CardContent className="flex items-baseline gap-1">
+        <p className="text-muted-foreground text-sm">Mar 27, 2025</p>
+        <span className="text-muted-foreground text-sm">•</span>
+        <p className="text-muted-foreground text-sm">23 recursos</p>
+      </CardContent>
       <CardFooter>
         <Button
           variant="link"
           asChild
           className="px-0 text-muted-foreground hover:text-primary"
         >
-          <Link href={`/modules/${id}`}>Ver matéria →</Link>
+          <Link href={`/modules/${id}`}>Ver módulo →</Link>
         </Button>
       </CardFooter>
     </Card>

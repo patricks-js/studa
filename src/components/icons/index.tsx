@@ -8,6 +8,7 @@ import {
   Loader,
   LogOut,
   MoonStar,
+  Plus,
   Settings2,
   SmartphoneCharging,
   SquareCheck,
@@ -44,4 +45,5 @@ export const Icons = {
   close: X,
   trash: Trash2,
   dots: EllipsisVertical,
+  add: Plus,
 };
