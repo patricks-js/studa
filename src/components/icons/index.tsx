@@ -2,6 +2,7 @@ import {
   BellIcon,
   Book,
   CreditCard,
+  EllipsisVertical,
   Home,
   Laptop,
   Loader,
@@ -10,8 +11,11 @@ import {
   Settings2,
   SmartphoneCharging,
   SquareCheck,
+  SquarePen,
   Sun,
+  Trash2,
   User,
+  X,
   type LucideProps,
 } from "lucide-react";
 
@@ -36,4 +40,8 @@ export const Icons = {
   sun: Sun,
   moon: MoonStar,
   desktop: Laptop,
+  edit: SquarePen,
+  close: X,
+  trash: Trash2,
+  dots: EllipsisVertical,
 };
