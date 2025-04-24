@@ -8,6 +8,13 @@
       "when": 1745120050260,
       "tag": "0000_bumpy_maestro",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1745454628527,
+      "tag": "0001_sweet_dragon_man",
+      "breakpoints": true
     }
   ]
 }

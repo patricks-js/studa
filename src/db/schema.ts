@@ -10,6 +10,43 @@ export const usersTable = pgTable("users", (t) => ({
   updatedAt: t.timestamp("updated_at").notNull(),
 }));
 
+export const modulesTable = pgTable("modules", (t) => ({
+  id: t.uuid().defaultRandom().primaryKey().notNull(),
+  userId: t
+    .text("user_id")
+    .references(() => usersTable.id, { onDelete: "cascade" })
+    .notNull(),
+  title: t.text().notNull(),
+  description: t.text(),
+  createdAt: t.timestamp("created_at").defaultNow().notNull(),
+  updatedAt: t.timestamp("updated_at").defaultNow().notNull(),
+  lastVisited: t.timestamp("last_visited").defaultNow().notNull(),
+}));
+
+export const resourcesTable = pgTable("resources", (t) => ({
+  id: t.uuid().defaultRandom().primaryKey().notNull(),
+  moduleId: t
+    .uuid("module_id")
+    .references(() => modulesTable.id, { onDelete: "cascade" })
+    .notNull(),
+  type: t.text({ enum: ["file", "link"] }).notNull(),
+  title: t.text().notNull(),
+  url: t.text(),
+  createdAt: t.timestamp("created_at").defaultNow().notNull(),
+}));
+
+export const flashcardsTable = pgTable("flashcards", (t) => ({
+  id: t.uuid().defaultRandom().primaryKey().notNull(),
+  moduleId: t
+    .uuid("module_id")
+    .references(() => modulesTable.id, { onDelete: "cascade" })
+    .notNull(),
+  question: t.text().notNull(),
+  answer: t.text().notNull(),
+  createdByAI: t.boolean("created_by_ai").default(false).notNull(),
+  createdAt: t.timestamp("created_at").defaultNow().notNull(),
+}));
+
 export const sessionsTable = pgTable("sessions", (t) => ({
   id: t.text().primaryKey(),
   expiresAt: t.timestamp("expires_at").notNull(),
