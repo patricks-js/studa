@@ -19,7 +19,7 @@ type Props = {
 
 export function ModuleCard({ id, title, description }: Props) {
   return (
-    <Card className="transition-colors hover:bg-muted/50">
+    <Card className="justify-between gap-4">
       <CardHeader>
         <ModuleCardActions moduleId={id} />
         <CardTitle>{title}</CardTitle>

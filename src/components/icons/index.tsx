@@ -13,6 +13,7 @@ import {
   SmartphoneCharging,
   SquareCheck,
   SquarePen,
+  Stars,
   Sun,
   Trash2,
   User,
@@ -46,4 +47,5 @@ export const Icons = {
   trash: Trash2,
   dots: EllipsisVertical,
   add: Plus,
+  stars: Stars,
 };

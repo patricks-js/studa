@@ -1,6 +1,6 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { db } from "../db";
@@ -24,8 +24,10 @@ export async function getAllModulesAction() {
       title: modulesTable.title,
       description: modulesTable.description,
       createdAt: modulesTable.createdAt,
+      lastVisited: modulesTable.lastVisited,
     })
     .from(modulesTable)
+    .orderBy(desc(modulesTable.createdAt))
     .where(eq(modulesTable.userId, session.user.id));
 
   return modules;
@@ -48,7 +50,7 @@ export const createModuleAction = authActionClient
       throw new Error("Failed to create module");
     }
 
-    revalidatePath("/modules", "page");
+    revalidatePath("/(app)", "layout");
 
     return result;
   });
