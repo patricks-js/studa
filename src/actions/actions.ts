@@ -3,8 +3,14 @@
 import { and, desc, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
+import { z } from "zod";
+
 import { db } from "../db";
-import { modulesTable } from "../db/schema";
+import {
+  modulesTable,
+  resourceInsertSchema,
+  resourcesTable,
+} from "../db/schema";
 import { auth } from "../lib/auth";
 import { authActionClient } from "../lib/safe-action";
 import { createModuleSchema, getModuleParamsSchema } from "./schema";
@@ -31,6 +37,67 @@ export async function getAllModulesAction() {
     .where(eq(modulesTable.userId, session.user.id));
 
   return modules;
+}
+
+export const createResourceAction = authActionClient
+  .schema(resourceInsertSchema)
+  .action(async ({ ctx: { userId }, parsedInput }) => {
+    const [moduleFound] = await db
+      .select({ id: modulesTable.id })
+      .from(modulesTable)
+      .where(
+        and(
+          eq(modulesTable.userId, userId),
+          eq(modulesTable.id, parsedInput.moduleId),
+        ),
+      );
+
+    if (!moduleFound) {
+      throw new Error("Module not found");
+    }
+
+    const [result] = await db
+      .insert(resourcesTable)
+      .values({
+        moduleId: moduleFound.id,
+        title: parsedInput.title,
+        content: parsedInput.content,
+        type: parsedInput.type,
+      })
+      .returning({
+        id: resourcesTable.id,
+      });
+
+    if (!result) {
+      throw new Error("Failed to create resource");
+    }
+
+    revalidatePath("/(app)", "layout");
+
+    return result;
+  });
+
+export async function getAllResourcesByModuleIdAction(moduleId: string) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
+
+  const resources = await db
+    .select({
+      id: resourcesTable.id,
+      title: resourcesTable.title,
+      type: resourcesTable.type,
+      content: resourcesTable.content,
+      createdAt: resourcesTable.createdAt,
+    })
+    .from(resourcesTable)
+    .where(eq(resourcesTable.moduleId, moduleId));
+
+  return resources;
 }
 
 export const createModuleAction = authActionClient

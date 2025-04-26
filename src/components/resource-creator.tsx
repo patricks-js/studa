@@ -1,13 +1,13 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
-import type { z } from "zod";
+import { z } from "zod";
 
-import { createModuleAction } from "@/actions/actions";
-import { createModuleSchema } from "@/actions/schema";
-import { useId } from "react";
+import { createResourceAction } from "@/actions/actions";
 import { Icons } from "./icons";
+import { ResourceTextEntry } from "./resource-text-entry";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -28,41 +28,66 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 
-type FormValues = z.infer<typeof createModuleSchema>;
+const schema = z.object({
+  title: z.string().min(1),
+  content: z.string().min(1),
+});
 
-export function CreateModuleDialog() {
+type FormValues = z.infer<typeof schema>;
+
+type Props = {
+  moduleId: string;
+};
+
+export function ResourceCreator({ moduleId }: Props) {
   const id = useId();
+  const [isOpen, setIsOpen] = useState(false);
   const form = useForm<FormValues>({
-    resolver: zodResolver(createModuleSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       title: "",
-      description: "",
+      content: "",
     },
   });
 
   async function onSubmit(values: FormValues) {
-    await createModuleAction(values);
+    await createResourceAction({
+      moduleId,
+      type: "text",
+      title: values.title,
+      content: values.content,
+    });
+
     form.reset();
+    setIsOpen(false);
   }
 
   return (
-    <Dialog modal>
+    <Dialog
+      modal
+      open={isOpen}
+      onOpenChange={setIsOpen}
+    >
       <DialogTrigger asChild>
         <Button>
           <Icons.add />
-          Novo modulo
+          Adicionar recurso
         </Button>
       </DialogTrigger>
+
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Novo módulo</DialogTitle>
+          <DialogTitle>Novo recurso</DialogTitle>
+
           <DialogDescription>
-            Crie um novo módulo para o seu perfil.
+            Você pode colar texto diretamente ou fazer upload de um arquivo{" "}
+            <em>.txt</em> ou <em>.md</em>.
           </DialogDescription>
         </DialogHeader>
+
         <Form {...form}>
           <form
-            id={`${id}-module-form`}
+            id={`${id}-form`}
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-6"
           >
@@ -74,7 +99,7 @@ export function CreateModuleDialog() {
                   <FormLabel>Título</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Título do módulo"
+                      placeholder="Ex: Resumo de História"
                       {...field}
                     />
                   </FormControl>
@@ -82,18 +107,27 @@ export function CreateModuleDialog() {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
-              name="description"
+              name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Descrição</FormLabel>
+                  <FormLabel>
+                    Conteúdo{" "}
+                    <span className="text-muted-foreground text-sm tracking-tight">
+                      (opcional)
+                    </span>
+                  </FormLabel>
+
                   <FormControl>
-                    <Input
-                      placeholder="Descrição do módulo"
-                      {...field}
+                    <ResourceTextEntry
+                      placeholder="Cole aqui um texto de até 2000 palavras..."
+                      className="min-h-[160px]"
+                      field={field}
                     />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -102,12 +136,21 @@ export function CreateModuleDialog() {
         </Form>
 
         <DialogFooter>
-          <Button variant="destructive">Cancelar</Button>
+          <Button
+            variant="destructive"
+            onClick={() => {
+              form.reset();
+              setIsOpen(false);
+            }}
+          >
+            Cancelar
+          </Button>
+
           <Button
             type="submit"
-            form={`${id}-module-form`}
+            form={`${id}-form`}
           >
-            Criar
+            Adicionar recurso
           </Button>
         </DialogFooter>
       </DialogContent>

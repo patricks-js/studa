@@ -1,6 +1,10 @@
-import { getModuleByIdAction } from "@/actions/actions";
+import {
+  getAllResourcesByModuleIdAction,
+  getModuleByIdAction,
+} from "@/actions/actions";
 import { Icons } from "@/components/icons";
-import { Button } from "@/components/ui/button";
+import { ResourceCard } from "@/components/resource-card";
+import { ResourceCreator } from "@/components/resource-creator";
 import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
 import { Separator } from "@/components/ui/separator";
 import { formatDistanceToNow } from "date-fns";
@@ -15,7 +19,10 @@ type Params = {
 export default async function ModulePage({ params }: Params) {
   const { moduleId } = await params;
 
-  const m = await getModuleByIdAction(moduleId);
+  const [m, resources] = await Promise.all([
+    getModuleByIdAction(moduleId),
+    getAllResourcesByModuleIdAction(moduleId),
+  ]);
 
   return (
     <div className="space-y-6">
@@ -32,12 +39,27 @@ export default async function ModulePage({ params }: Params) {
       <section className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="font-medium text-lg tracking-tight">Recursos</h2>
-          <Button>
-            <Icons.add />
-            Adicionar recurso
-          </Button>
+          <ResourceCreator moduleId={moduleId} />
         </div>
         <Separator />
+        {resources.length > 0 ? (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {resources.map((resource) => (
+              <ResourceCard
+                key={resource.id}
+                title={resource.title}
+                createdAt={new Date(resource.createdAt)}
+                content={resource.content}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex min-h-40 items-center justify-center p-4">
+            <p className="font-medium text-muted-foreground">
+              Nenhum recurso adicionado.
+            </p>
+          </div>
+        )}
       </section>
       <section className="space-y-4">
         <div className="mb-2 flex items-center justify-between">
@@ -52,6 +74,11 @@ export default async function ModulePage({ params }: Params) {
           </HoverBorderGradient>
         </div>
         <Separator />
+        <div className="flex min-h-40 items-center justify-center p-4">
+          <p className="font-medium text-muted-foreground">
+            Nenhum flashcard gerado.
+          </p>
+        </div>
       </section>
     </div>
   );

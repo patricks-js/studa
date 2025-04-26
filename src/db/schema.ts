@@ -1,4 +1,5 @@
 import { pgTable } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
 
 export const usersTable = pgTable("users", (t) => ({
   id: t.text().primaryKey().notNull(),
@@ -35,6 +36,11 @@ export const resourcesTable = pgTable("resources", (t) => ({
   url: t.text(),
   createdAt: t.timestamp("created_at").defaultNow().notNull(),
 }));
+
+export const resourceInsertSchema = createInsertSchema(resourcesTable, {
+  content: (schema) => schema.max(2001).optional(),
+  url: (schema) => schema.url().optional(),
+});
 
 export const flashcardsTable = pgTable("flashcards", (t) => ({
   id: t.uuid().defaultRandom().primaryKey().notNull(),

@@ -30,6 +30,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.42.0",
+    "drizzle-zod": "^0.7.1",
     "lucide-react": "^0.501.0",
     "motion": "^12.9.1",
     "next": "15.3.1",
