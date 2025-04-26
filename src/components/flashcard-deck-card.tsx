@@ -5,45 +5,44 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import Link from "next/link";
 import { Icons } from "./icons";
 
 type FlashcardDeckCardProps = {
-  title: string;
+  moduleId: string;
   totalFlashcards: number;
-  updatedAt: Date;
-  isAI?: boolean;
+  createdAt: Date;
+  createdByAI?: boolean;
 };
 
 export function FlashcardDeckCard({
-  title,
+  moduleId,
   totalFlashcards,
-  updatedAt,
-  isAI = false,
+  createdAt,
+  createdByAI = false,
 }: FlashcardDeckCardProps) {
   return (
     <Card className="bg-background">
       <CardHeader>
-        <CardTitle>{title}</CardTitle>
-        <CardDescription>
+        <CardTitle>
           Deck com {totalFlashcards} flashcard
           {totalFlashcards !== 1 ? "s" : ""}
-        </CardDescription>
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-2">
         <p className="text-muted-foreground text-xs">
-          Atualizado há{" "}
-          {formatDistanceToNow(updatedAt, { addSuffix: false, locale: ptBR })}
+          Criado{" "}
+          {formatDistanceToNow(createdAt, { addSuffix: true, locale: ptBR })}
         </p>
         <div className="flex items-center gap-2">
           <Badge variant="secondary">Matéria</Badge>
-          {isAI && (
+          {createdByAI && (
             <Badge variant="outline">
               <Icons.stars className="size-2 text-muted-foreground" />
               IA
@@ -55,9 +54,10 @@ export function FlashcardDeckCard({
       <CardFooter>
         <Button
           variant="outline"
+          asChild
           className="w-full"
         >
-          Revisar
+          <Link href={`/flashcard/${moduleId}`}>Revisar</Link>
         </Button>
       </CardFooter>
     </Card>

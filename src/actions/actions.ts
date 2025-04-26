@@ -1,18 +1,24 @@
 "use server";
 
+import { generateObject } from "ai";
 import { and, desc, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { z } from "zod";
 
+import { mistral } from "@/lib/ai";
+import { env } from "@/lib/env";
+import { parseFlashcards } from "@/lib/utils";
 import { db } from "../db";
 import {
+  flashcardsTable,
   modulesTable,
   resourceInsertSchema,
   resourcesTable,
 } from "../db/schema";
 import { auth } from "../lib/auth";
 import { authActionClient } from "../lib/safe-action";
+import { flashcardGeneratorPrompt } from "./prompts";
 import { createModuleSchema, getModuleParamsSchema } from "./schema";
 
 export async function getAllModulesAction() {
@@ -163,4 +169,97 @@ export const deleteModuleAction = authActionClient
       );
 
     revalidatePath("/modules", "page");
+  });
+
+export async function getFlashcardDecksByModuleAction(moduleId: string) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
+
+  const flashcards = await db
+    .select({
+      id: flashcardsTable.id,
+      question: flashcardsTable.question,
+      answer: flashcardsTable.answer,
+      createdAt: flashcardsTable.createdAt,
+      createdByAI: flashcardsTable.createdByAI,
+    })
+    .from(flashcardsTable)
+    .orderBy(desc(flashcardsTable.createdAt))
+    .where(eq(flashcardsTable.moduleId, moduleId));
+
+  const decks: Record<string, typeof flashcards> = {};
+
+  for (const flashcard of flashcards) {
+    const dateKey = flashcard.createdAt.toISOString();
+
+    if (!decks[dateKey]) {
+      decks[dateKey] = [];
+    }
+
+    decks[dateKey].push(flashcard);
+  }
+
+  console.log(decks);
+
+  return decks;
+}
+
+export const generateFlashcardsAction = authActionClient
+  .schema(z.object({ moduleId: z.string() }))
+  .action(async ({ parsedInput }) => {
+    const resources = await db
+      .select({
+        content: resourcesTable.content,
+      })
+      .from(resourcesTable)
+      .where(eq(resourcesTable.moduleId, parsedInput.moduleId));
+
+    if (resources.length === 0) {
+      throw new Error("No resources found");
+    }
+
+    const fullContent = resources
+      .map((r) => r.content ?? "")
+      .filter(Boolean)
+      .join("\n\n");
+
+    const maxWords = 8000;
+    const limitedContent = fullContent
+      .split(/\s+/)
+      .slice(0, maxWords)
+      .join(" ");
+
+    const { object: flashcards, usage } = await generateObject({
+      model: mistral(env.AI_MODEL),
+      output: "no-schema",
+      system: flashcardGeneratorPrompt,
+      prompt: limitedContent,
+    });
+
+    const parsedFlashcards = parseFlashcards(flashcards);
+
+    await db.insert(flashcardsTable).values(
+      parsedFlashcards.map((f) => ({
+        createdByAI: true,
+        moduleId: parsedInput.moduleId,
+        question: f.question,
+        answer: f.answer,
+      })),
+    );
+
+    revalidatePath("/(app)", "layout");
+
+    return {
+      flashcards,
+      tokens: {
+        prompt: usage.promptTokens,
+        completion: usage.completionTokens,
+        total: usage.totalTokens,
+      },
+    };
   });

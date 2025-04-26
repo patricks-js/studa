@@ -1,14 +1,16 @@
-import {
-  getAllResourcesByModuleIdAction,
-  getModuleByIdAction,
-} from "@/actions/actions";
-import { Icons } from "@/components/icons";
-import { ResourceCard } from "@/components/resource-card";
-import { ResourceCreator } from "@/components/resource-creator";
-import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
-import { Separator } from "@/components/ui/separator";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
+
+import {
+  getAllResourcesByModuleIdAction,
+  getFlashcardDecksByModuleAction,
+  getModuleByIdAction,
+} from "@/actions/actions";
+import { FlashcardDeckCard } from "@/components/flashcard-deck-card";
+import { FlashcardsCreator } from "@/components/flashcards-creator";
+import { ResourceCard } from "@/components/resource-card";
+import { ResourceCreator } from "@/components/resource-creator";
+import { Separator } from "@/components/ui/separator";
 
 type Params = {
   params: Promise<{
@@ -19,9 +21,10 @@ type Params = {
 export default async function ModulePage({ params }: Params) {
   const { moduleId } = await params;
 
-  const [m, resources] = await Promise.all([
+  const [m, resources, decks] = await Promise.all([
     getModuleByIdAction(moduleId),
     getAllResourcesByModuleIdAction(moduleId),
+    getFlashcardDecksByModuleAction(moduleId),
   ]);
 
   return (
@@ -64,21 +67,29 @@ export default async function ModulePage({ params }: Params) {
       <section className="space-y-4">
         <div className="mb-2 flex items-center justify-between">
           <h2 className="font-medium text-lg tracking-tight">Flashcards</h2>
-          <HoverBorderGradient
-            containerClassName="[&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0 rounded-md font-medium text-sm"
-            as="button"
-            className="flex items-center gap-2 bg-white text-black dark:bg-black dark:text-white"
-          >
-            <Icons.stars />
-            Gerar flashcards
-          </HoverBorderGradient>
+          <FlashcardsCreator moduleId={moduleId} />
         </div>
         <Separator />
-        <div className="flex min-h-40 items-center justify-center p-4">
-          <p className="font-medium text-muted-foreground">
-            Nenhum flashcard gerado.
-          </p>
-        </div>
+        {}
+        {Object.keys(decks).length > 0 ? (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {Object.keys(decks).map((date) => (
+              <FlashcardDeckCard
+                key={date}
+                moduleId={moduleId}
+                totalFlashcards={decks[date].length}
+                createdAt={new Date(date)}
+                createdByAI
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex min-h-40 items-center justify-center p-4">
+            <p className="font-medium text-muted-foreground">
+              Nenhum flashcard gerado.
+            </p>
+          </div>
+        )}
       </section>
     </div>
   );

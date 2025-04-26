@@ -55,10 +55,10 @@ export default async function HomePage() {
             <FlashcardDeckCard
               // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
               key={i}
-              title="Matemática"
+              moduleId="1"
               totalFlashcards={12}
-              updatedAt={subDays(new Date(), i)}
-              isAI={i % 2 === 0}
+              createdAt={subDays(new Date(), i)}
+              createdByAI={i % 2 === 0}
             />
           ))}
         </div>
