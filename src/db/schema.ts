@@ -29,8 +29,9 @@ export const resourcesTable = pgTable("resources", (t) => ({
     .uuid("module_id")
     .references(() => modulesTable.id, { onDelete: "cascade" })
     .notNull(),
-  type: t.text({ enum: ["file", "link"] }).notNull(),
   title: t.text().notNull(),
+  type: t.text({ enum: ["text", "file", "link"] }).notNull(),
+  content: t.text(),
   url: t.text(),
   createdAt: t.timestamp("created_at").defaultNow().notNull(),
 }));
