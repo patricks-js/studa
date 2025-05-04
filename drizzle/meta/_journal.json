@@ -5,22 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1745120050260,
-      "tag": "0000_bumpy_maestro",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1745454628527,
-      "tag": "0001_sweet_dragon_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1745633378299,
-      "tag": "0002_breezy_junta",
+      "when": 1746324649979,
+      "tag": "0000_marvelous_wind_dancer",
       "breakpoints": true
     }
   ]
