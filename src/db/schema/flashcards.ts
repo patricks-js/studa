@@ -1,5 +1,7 @@
+import { relations } from "drizzle-orm";
 import { pgTable } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
+import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
+
 import { notebooksTable } from "./notebooks";
 
 export const decksTable = pgTable("decks", (t) => ({
@@ -14,8 +16,6 @@ export const decksTable = pgTable("decks", (t) => ({
   createdAt: t.timestamp("created_at").defaultNow().notNull(),
 }));
 
-export const deckInsertSchema = createInsertSchema(decksTable);
-
 export const flashcardsTable = pgTable("flashcards", (t) => ({
   id: t.uuid().defaultRandom().primaryKey().notNull(),
   question: t.text().notNull(),
@@ -26,4 +26,22 @@ export const flashcardsTable = pgTable("flashcards", (t) => ({
     .notNull(),
 }));
 
+export const deckInsertSchema = createInsertSchema(decksTable);
+export const deckUpdateSchema = createUpdateSchema(decksTable);
+
 export const flashcardInsertSchema = createInsertSchema(flashcardsTable);
+
+export const decksRelations = relations(decksTable, ({ one, many }) => ({
+  notebook: one(notebooksTable, {
+    fields: [decksTable.notebookId],
+    references: [notebooksTable.id],
+  }),
+  flashcards: many(flashcardsTable),
+}));
+
+export const flashcardsRelations = relations(flashcardsTable, ({ one }) => ({
+  deck: one(decksTable, {
+    fields: [flashcardsTable.deckId],
+    references: [decksTable.id],
+  }),
+}));

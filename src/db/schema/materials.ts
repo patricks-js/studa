@@ -1,5 +1,7 @@
+import { relations } from "drizzle-orm";
 import { pgTable } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
+import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
+
 import { notebooksTable } from "./notebooks";
 
 export const materialsTable = pgTable("materials", (t) => ({
@@ -15,7 +17,18 @@ export const materialsTable = pgTable("materials", (t) => ({
   createdAt: t.timestamp("created_at").defaultNow().notNull(),
 }));
 
-export const materialsInsertSchema = createInsertSchema(materialsTable, {
+export const materialInsertSchema = createInsertSchema(materialsTable, {
   content: (schema) => schema.max(2001).optional(),
   url: (schema) => schema.url().optional(),
 });
+export const materialUpdateSchema = createUpdateSchema(materialsTable, {
+  content: (schema) => schema.max(2001).optional(),
+  url: (schema) => schema.url().optional(),
+});
+
+export const materialsRelations = relations(materialsTable, ({ one }) => ({
+  notebook: one(notebooksTable, {
+    fields: [materialsTable.notebookId],
+    references: [notebooksTable.id],
+  }),
+}));
