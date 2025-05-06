@@ -1,4 +1,7 @@
-import { SignInForm } from "@/components/sign-in-form";
+import Image from "next/image";
+import Link from "next/link";
+
+import { LoginForm } from "@/components/auth/login-form";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,8 +11,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
-import Link from "next/link";
 
 export default function LoginPage() {
   return (
@@ -28,7 +29,7 @@ export default function LoginPage() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <SignInForm />
+        <LoginForm />
       </CardContent>
       <CardFooter className="border-t pt-4!">
         <p className="mx-auto text-muted-foreground text-sm">
