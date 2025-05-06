@@ -2,9 +2,9 @@
 
 import { useAction } from "next-safe-action/hooks";
 import { useState } from "react";
-
-import { deleteModuleAction } from "@/actions/actions";
 import { toast } from "sonner";
+
+import { deleteNotebookAction } from "@/actions/notebooks/delete-notebook-action";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
 import { CardAction } from "./ui/card";
@@ -25,13 +25,13 @@ import {
 } from "./ui/dropdown-menu";
 
 type Props = {
-  moduleId: string;
+  notebookId: string;
 };
 
-export function ModuleCardActions({ moduleId }: Props) {
+export function ModuleCardActions({ notebookId }: Props) {
   const [open, setOpen] = useState(false);
 
-  const { execute: deleteModule } = useAction(deleteModuleAction, {
+  const { execute: deleteModule } = useAction(deleteNotebookAction, {
     // onExecute() { // TODO: fix infinite loading
     //   toast.loading("Excluindo módulo...");
     // },
@@ -82,7 +82,7 @@ export function ModuleCardActions({ moduleId }: Props) {
             <Button
               variant="destructive"
               onClick={() => {
-                deleteModule({ moduleId });
+                deleteModule({ notebookId });
                 setOpen((prev) => !prev);
               }}
             >

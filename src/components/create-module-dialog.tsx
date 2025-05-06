@@ -4,8 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
-import { createModuleAction } from "@/actions/actions";
-import { createModuleSchema } from "@/actions/schema";
+import { createNotebookAction } from "@/actions/notebooks/create-notebook-action";
+import { createNotebookSchema } from "@/actions/schema";
 import { useId } from "react";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
@@ -28,12 +28,12 @@ import {
 } from "./ui/form";
 import { Input } from "./ui/input";
 
-type FormValues = z.infer<typeof createModuleSchema>;
+type FormValues = z.infer<typeof createNotebookSchema>;
 
 export function CreateModuleDialog() {
   const id = useId();
   const form = useForm<FormValues>({
-    resolver: zodResolver(createModuleSchema),
+    resolver: zodResolver(createNotebookSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -41,7 +41,7 @@ export function CreateModuleDialog() {
   });
 
   async function onSubmit(values: FormValues) {
-    await createModuleAction(values);
+    await createNotebookAction(values);
     form.reset();
   }
 
