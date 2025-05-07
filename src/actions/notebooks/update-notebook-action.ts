@@ -6,8 +6,8 @@ import { z } from "zod";
 
 import { db } from "@/db";
 import { notebooksTable, notebookUpdateSchema } from "@/db/schema";
+import type { Notebook } from "@/lib/definitions";
 import { type ActionResult, authActionClient } from "@/lib/safe-action";
-import type { Notebook } from "@/types/models";
 
 const schema = notebookUpdateSchema.extend({
   notebookId: z.string().uuid(),
