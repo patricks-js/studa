@@ -1,17 +1,14 @@
 import { createSafeActionClient } from "next-safe-action";
-import { headers } from "next/headers";
-import { auth } from "./auth";
+import { verifySession } from "./server-utils";
 
 export const actionClient = createSafeActionClient();
 
 export const authActionClient = actionClient.use(async ({ next }) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) {
-    throw new Error("Unauthorized");
-  }
+  const session = await verifySession();
 
   return next({ ctx: { userId: session.user.id } });
 });
+
+export type ActionResult<TData = void, TError = string> =
+  | { success: true; data?: TData }
+  | { success: false; error: TError };
