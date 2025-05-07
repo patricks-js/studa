@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 
-import { AppHeader } from "@/components/app-header";
-import { AppSidebar } from "@/components/app-sidebart";
+import { AppHeader } from "@/components/layout/app-header";
+import { AppSidebar } from "@/components/layout/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function AppLayout({ children }: Readonly<PropsWithChildren>) {
@@ -11,7 +11,9 @@ export default function AppLayout({ children }: Readonly<PropsWithChildren>) {
       <main className="flex flex-1 flex-col">
         <SidebarInset>
           <AppHeader />
-          <div className="p-4 md:px-6 lg:px-8">{children}</div>
+          <div className="mx-auto w-full max-w-[1440px] p-4 md:px-6 lg:px-8">
+            {children}
+          </div>
         </SidebarInset>
       </main>
     </SidebarProvider>

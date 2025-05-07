@@ -1,26 +1,23 @@
+import { cn } from "@/lib/utils";
 import type { User } from "better-auth";
 import { Icons } from "./icons";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { Skeleton } from "./ui/skeleton";
 
 type UserAvatarProps = {
   user?: User;
-  isPending?: boolean;
 };
 
-export function UserAvatar({ user, isPending }: UserAvatarProps) {
+export function UserAvatar({ user }: UserAvatarProps) {
   const name = user?.name || user?.email;
   const url = user?.image;
 
-  if (isPending) {
-    return <Skeleton className="size-8 shrink-0 rounded-full" />;
-  }
-
   return (
-    <Avatar className="bg-muted">
+    <Avatar className={cn("bg-accent", !user && "animate-pulse")}>
       <AvatarImage
         src={url || undefined}
         alt={`${name || "User"}'s avatar`}
+        width={32}
+        height={32}
       />
       <AvatarFallback
         className="uppercase"

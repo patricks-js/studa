@@ -5,6 +5,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import {
   Sidebar,
   SidebarContent,
@@ -16,26 +24,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { NAVIGATION } from "@/lib/constants";
 import { cn } from "@/lib/utils";
-import { Icons } from "./icons";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
-import { Progress } from "./ui/progress";
-
-const navItems = [
-  {
-    title: "Home",
-    url: "/home",
-    icon: Icons.home,
-    isActive: false,
-  },
-  {
-    title: "Módulos",
-    url: "/modules",
-    icon: Icons.book,
-    isActive: false,
-  },
-];
 
 export function AppSidebar() {
   const pathname = usePathname();
@@ -68,19 +58,19 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
+              {NAVIGATION.map((item) => (
+                <SidebarMenuItem key={item.label}>
                   <SidebarMenuButton
                     asChild
                     className={cn(
                       "[&>svg]:text-muted-foreground",
-                      isActiveUrl(item.url) &&
+                      isActiveUrl(item.href) &&
                         "bg-sidebar-accent shadow-sm [&>svg]:text-sidebar-accent-foreground",
                     )}
                   >
-                    <Link href={item.url}>
+                    <Link href={item.href}>
                       <item.icon />
-                      <span>{item.title}</span>
+                      <span>{item.label}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

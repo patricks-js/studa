@@ -7,6 +7,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export function sleep(ms = 1000) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 const flashcardSchema = z.object({
   question: z.string().min(5).max(500),
   answer: z.string().min(1).max(1000),

@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import { Icons } from "./icons";
 
-export function ThemeToggle() {
+export function ThemeSwitcher() {
   const { setTheme, theme } = useTheme();
 
   function handleThemeChange() {
@@ -14,7 +14,7 @@ export function ThemeToggle() {
 
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       size="icon"
       onClick={handleThemeChange}
     >

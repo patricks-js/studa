@@ -1,6 +1,8 @@
 import {
+  ArrowRight,
   BellIcon,
   Book,
+  ChevronDown,
   CreditCard,
   EllipsisVertical,
   Home,
@@ -48,4 +50,6 @@ export const Icons = {
   dots: EllipsisVertical,
   add: Plus,
   stars: Stars,
+  arrowRight: ArrowRight,
+  chevronDown: ChevronDown,
 };
