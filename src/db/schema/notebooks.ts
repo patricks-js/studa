@@ -13,6 +13,7 @@ export const notebooksTable = pgTable("notebooks", (t) => ({
     .notNull(),
   title: t.text().notNull(),
   description: t.text(),
+
   createdAt: t.timestamp("created_at").defaultNow().notNull(),
   updatedAt: t.timestamp("updated_at").defaultNow().notNull(),
   lastVisited: t.timestamp("last_visited").defaultNow().notNull(),
