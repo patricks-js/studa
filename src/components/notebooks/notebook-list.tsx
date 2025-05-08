@@ -6,7 +6,7 @@ export async function NotebookList() {
   const notebooks = await fetchNotebooks();
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
       {notebooks.length === 0 ? (
         <div>Nenhum notebook encontrado</div>
       ) : (

@@ -41,15 +41,15 @@ export function AppSidebar() {
           <SidebarMenuItem className="px-4 py-2">
             <a
               href="/home"
-              className="flex items-center gap-2"
+              className="flex items-center gap-2.5"
             >
               <Image
                 src="/logo.svg"
                 alt="Logo"
-                width={40}
-                height={40}
+                width={32}
+                height={32}
               />
-              <span className="font-semibold text-lg">Studa.ai</span>
+              <span className="font-semibold text-lg">Studa</span>
             </a>
           </SidebarMenuItem>
         </SidebarMenu>

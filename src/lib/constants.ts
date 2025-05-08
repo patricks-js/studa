@@ -2,7 +2,7 @@ import { Icons } from "@/components/icons";
 
 export const NAVIGATION = [
   { label: "Home", href: "/home", icon: Icons.home },
-  { label: "Notebooks", href: "/modules", icon: Icons.book },
+  { label: "Notebooks", href: "/notebooks", icon: Icons.book },
 ] as const;
 
 export const DROPDOWN_MENU_ITEMS = [

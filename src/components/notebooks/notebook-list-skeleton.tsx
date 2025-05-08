@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 export function NotebookListSkeleton() {
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="grid gap-4 [grid-template-columns:repeat(auto-fit,minmax(280px,1fr))]">
       {[0, 1, 2, 3].map((i) => (
         <div
           key={i}
