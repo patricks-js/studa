@@ -12,7 +12,6 @@ import {
   MoonStar,
   Plus,
   Settings2,
-  SmartphoneCharging,
   SquareCheck,
   SquarePen,
   Stars,
@@ -20,6 +19,7 @@ import {
   Trash2,
   User,
   X,
+  Zap,
   type LucideProps,
 } from "lucide-react";
 
@@ -38,7 +38,7 @@ export const Icons = {
   user: User,
   logout: LogOut,
   book: Book,
-  flashcard: SmartphoneCharging,
+  flashcard: Zap,
   quiz: SquareCheck,
   credit: CreditCard,
   sun: Sun,

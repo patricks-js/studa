@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import type { z } from "zod";
 
 import { createNotebookAction } from "@/actions/notebooks/create-notebook-action";
-import { createNotebookSchema } from "@/actions/schema";
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,14 +26,16 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { notebookInsertSchema } from "@/db/schema";
 
-type FormValues = z.infer<typeof createNotebookSchema>;
+type FormValues = z.infer<typeof notebookInsertSchema>;
 
 export function NotebookCreatorCard() {
   const id = useId();
   const [isOpen, setIsOpen] = useState(false);
+
   const form = useForm<FormValues>({
-    resolver: zodResolver(createNotebookSchema),
+    resolver: zodResolver(notebookInsertSchema),
     defaultValues: {
       title: "",
       description: "",
@@ -103,6 +104,7 @@ export function NotebookCreatorCard() {
                     <Input
                       placeholder="Descrição do módulo"
                       {...field}
+                      value={field.value ?? ""}
                     />
                   </FormControl>
                   <FormMessage />

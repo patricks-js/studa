@@ -11,7 +11,7 @@ export default function AppLayout({ children }: Readonly<PropsWithChildren>) {
       <main className="flex flex-1 flex-col">
         <SidebarInset>
           <AppHeader />
-          <div className="mx-auto w-full max-w-[1440px] p-4 md:px-6 lg:px-8">
+          <div className="mx-auto w-full max-w-[1440px] flex-1 p-4 md:px-6 lg:px-8">
             {children}
           </div>
         </SidebarInset>

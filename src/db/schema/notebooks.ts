@@ -19,8 +19,14 @@ export const notebooksTable = pgTable("notebooks", (t) => ({
   lastVisited: t.timestamp("last_visited").defaultNow().notNull(),
 }));
 
-export const notebookInsertSchema = createInsertSchema(notebooksTable);
-export const notebookUpdateSchema = createUpdateSchema(notebooksTable);
+export const notebookInsertSchema = createInsertSchema(notebooksTable, {
+  title: (schema) => schema.min(4).max(100),
+  description: (schema) => schema.max(300),
+});
+export const notebookUpdateSchema = createUpdateSchema(notebooksTable, {
+  title: (schema) => schema.min(4).max(100).optional(),
+  description: (schema) => schema.max(300).optional(),
+});
 
 export const notebooksRelations = relations(
   notebooksTable,
