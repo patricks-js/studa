@@ -1,6 +1,6 @@
 import { fetchNotebooks } from "@/lib/data";
-import { Icons } from "../icons";
 import { NotebookCard } from "./notebook-card";
+import { NotebookCreatorCard } from "./notebook-creator-card";
 
 export async function NotebookList() {
   const notebooks = await fetchNotebooks();
@@ -25,12 +25,7 @@ export async function NotebookList() {
           />
         ))
       )}
-      <div className="flex h-full cursor-pointer items-center justify-center rounded-xl border-2 border-dashed p-6 transition-colors duration-200 hover:border-secondary hover:bg-secondary/30">
-        <p className="inline-flex items-center gap-1 font-medium text-muted-foreground">
-          <Icons.add className="size-5 text-muted-foreground" />
-          Adicionar novo notebook
-        </p>
-      </div>
+      <NotebookCreatorCard />
     </div>
   );
 }
